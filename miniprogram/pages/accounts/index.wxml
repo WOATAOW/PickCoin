@@ -1,0 +1,128 @@
+<view class="container">
+  <view class="summary-card">
+    <view class="summary-header">
+      <text class="summary-title">净资产</text>
+    </view>
+    <text class="summary-value">¥{{netAssets}}</text>
+    <view class="summary-row">
+      <view class="summary-item">
+        <text class="summary-label">总资产</text>
+        <text class="summary-amount green">+{{totalAssets}}</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-label">总负债</text>
+        <text class="summary-amount red">{{totalLiabilities}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="account-list">
+    <view class="list-header">
+      <text class="list-title">我的账户</text>
+      <text class="list-count">共 {{accountList.length}} 个账户</text>
+    </view>
+
+    <view 
+      class="account-card" 
+      wx:for="{{accountList}}" 
+      wx:key="id"
+    >
+      <view class="account-left">
+        <view class="account-icon {{item.balance < 0 ? 'bg-red' : 'bg-green'}}">
+          <text class="icon-text">{{item.icon}}</text>
+        </view>
+        <view class="account-info">
+          <text class="account-name">{{item.name}}</text>
+          <text class="account-type">{{item.balance < 0 ? '负债账户' : '资产账户'}}</text>
+        </view>
+      </view>
+      <view class="account-right">
+        <text class="account-balance {{item.balance < 0 ? 'red' : 'green'}}">
+          {{item.balance < 0 ? '-' : '+'}}{{item.balance < 0 ? -item.balance : item.balance}}
+        </text>
+        <view 
+          class="edit-btn"
+          bindtap="onEditAccountBalance"
+          data-id="{{item._id}}"
+          data-name="{{item.name}}"
+          data-balance="{{item.balance}}"
+        >
+          <text class="edit-icon">✏️</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="add-account-btn" bindtap="showAddAccountModal">
+      <text class="add-icon">+</text>
+      <text class="add-text">添加账户</text>
+    </view>
+  </view>
+
+  <view class="mask {{showModal ? 'show' : ''}}" bindtap="closeModal"></view>
+
+  <view class="modal {{showModal ? 'show' : ''}}">
+    <view class="modal-header">
+      <text class="modal-title">新增账户</text>
+    </view>
+
+    <view class="modal-body">
+      <view class="input-group">
+        <text class="input-label">账户名称</text>
+        <input 
+          class="modal-input" 
+          type="text" 
+          placeholder="如：招商银行、校园卡" 
+          bindinput="onModalNameInput" 
+          value="{{modalAccountName}}"
+        />
+      </view>
+
+      <view class="input-group">
+        <text class="input-label">初始金额</text>
+        <input 
+          class="modal-input" 
+          type="digit" 
+          placeholder="负数表示负债，如：-500.00" 
+          bindinput="onModalBalanceInput" 
+          value="{{modalAccountBalance}}"
+        />
+      </view>
+    </view>
+
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="closeModal">取消</view>
+      <view class="modal-btn confirm" bindtap="submitNewAccount">确认添加</view>
+    </view>
+  </view>
+
+  <view class="mask {{showEditModal ? 'show' : ''}}" bindtap="closeEditModal"></view>
+
+  <view class="modal {{showEditModal ? 'show' : ''}}">
+    <view class="modal-header">
+      <text class="modal-title">修改余额</text>
+    </view>
+
+    <view class="modal-body">
+      <view class="input-group">
+        <text class="input-label">账户名称</text>
+        <view class="account-name-display">{{editingAccountName}}</view>
+      </view>
+
+      <view class="input-group">
+        <text class="input-label">账户余额</text>
+        <input 
+          class="modal-input" 
+          type="digit" 
+          placeholder="请输入金额，负数表示负债" 
+          bindinput="onEditBalanceInput" 
+          value="{{editAccountBalance}}"
+        />
+      </view>
+    </view>
+
+    <view class="modal-footer">
+      <view class="modal-btn cancel" bindtap="closeEditModal">取消</view>
+      <view class="modal-btn confirm" bindtap="submitEditBalance">保存修改</view>
+    </view>
+  </view>
+</view>

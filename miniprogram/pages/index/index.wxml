@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="dashboard-card" bindtap="goToAccounts">
+    <view class="card-header">
+      <text class="title">本月结余 (元)</text>
+    </view>
+    <view class="net-value">¥{{totalBalance}}</view>
+    
+    <view class="divider"></view>
+    
+    <view class="assets-row">
+      <view class="asset-item">
+        <text class="asset-label">本月支出</text>
+        <text class="asset-value expense">-¥{{monthExpense}}</text>
+      </view>
+      <view class="asset-item">
+        <text class="asset-label">本月收入</text>
+        <text class="asset-value income">+¥{{monthIncome}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-btn" bindtap="goToQuickBook">
+      <text class="btn-icon">✍️</text>
+      <text class="btn-text">记一笔</text>
+    </view>
+    <view class="action-btn ai-btn" bindtap="goToAiAgent">
+      <text class="btn-icon">🤖</text>
+      <text class="btn-text">AI 管家</text>
+    </view>
+  </view>
+
+  <view class="tx-section">
+    <view class="tx-header">
+      <text class="tx-title">最近流水</text>
+      <text class="tx-more" bindtap="goToAllTxs">查看全部 ></text>
+    </view>
+
+    <view class="tx-list">
+      <block wx:for="{{recentTxs}}" wx:key="txId">
+        <view class="tx-item">
+          <view class="tx-left">
+            <view class="tx-icon-wrap {{item.type === 'expense' ? 'bg-red' : 'bg-green'}}">
+              <text class="tx-icon">{{item.type === 'expense' ? '出' : '入'}}</text>
+            </view>
+            <view class="tx-info">
+              <text class="tx-category">{{item.category}}</text>
+              <text class="tx-account">{{item.account}}</text>
+            </view>
+          </view>
+          <view class="tx-right">
+            <text class="tx-amount {{item.type === 'expense' ? 'text-expense' : 'text-income'}}">
+              {{item.type === 'expense' ? '-' : '+'}}{{item.amount}}
+            </text>
+            <text class="tx-date">{{item.date}}</text>
+          </view>
+        </view>
+      </block>
+      
+      <view class="empty-state" wx:if="{{recentTxs.length === 0}}">
+        <text class="empty-text">暂无流水记录，快去记一笔吧</text>
+      </view>
+    </view>
+  </view>
+</view>

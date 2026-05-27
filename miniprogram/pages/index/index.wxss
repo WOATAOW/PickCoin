@@ -1,0 +1,231 @@
+page {
+  background-color: #F3F4F6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  padding: 8rpx 16rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0;
+}
+
+.dashboard-card {
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  color: #FFFFFF;
+  box-shadow: 0 10rpx 30rpx rgba(30, 58, 138, 0.2);
+  margin: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+.net-value {
+  font-size: 64rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+}
+
+.divider {
+  height: 2rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 30rpx;
+}
+
+.assets-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.asset-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.asset-label {
+  font-size: 24rpx;
+  opacity: 0.8;
+  margin-bottom: 8rpx;
+}
+
+.asset-value {
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.asset-value.expense {
+  color: #FCA5A5;
+}
+
+.asset-value.income {
+  color: #86EFAC;
+}
+
+.action-bar {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  gap: 16rpx;
+  padding: 0;
+}
+
+.action-btn {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.03);
+}
+
+.ai-btn {
+  background: linear-gradient(to right, #EEF2FF, #E0E7FF);
+}
+
+.btn-icon {
+  font-size: 40rpx;
+  margin-right: 12rpx;
+}
+
+.btn-text {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #1F2937;
+}
+
+.tx-section {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.02);
+  margin: 0;
+}
+
+.tx-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.tx-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #111827;
+}
+
+.tx-more {
+  font-size: 24rpx;
+  color: #6B7280;
+}
+
+.tx-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 2rpx solid #F3F4F6;
+}
+
+.tx-item:last-child {
+  border-bottom: none;
+}
+
+.tx-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.tx-icon-wrap {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.bg-red { background-color: #FEE2E2; color: #EF4444; }
+.bg-green { background-color: #D1FAE5; color: #10B981; }
+
+.tx-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.tx-category {
+  font-size: 28rpx;
+  color: #1F2937;
+  font-weight: 500;
+  margin-bottom: 6rpx;
+}
+
+.tx-account {
+  font-size: 22rpx;
+  color: #6B7280;
+}
+
+.tx-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.tx-amount {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 6rpx;
+}
+
+.text-expense { color: #111827; }
+.text-income { color: #10B981; }
+
+.tx-date {
+  font-size: 22rpx;
+  color: #9CA3AF;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60rpx 0;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #9CA3AF;
+}

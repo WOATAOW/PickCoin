@@ -1,0 +1,108 @@
+<view class="container">
+  <view wx:if="{{userInfo._openid}}" class="user-card">
+    <button 
+      class="avatar-btn" 
+      open-type="chooseAvatar" 
+      bind:chooseavatar="onChooseAvatar"
+    >
+      <image 
+        wx:if="{{userInfo.avatarUrl}}" 
+        class="avatar" 
+        src="{{userInfo.avatarUrl}}" 
+        mode="aspectFill"
+      />
+      <view wx:else class="avatar-placeholder">
+        <text class="placeholder-icon">👤</text>
+      </view>
+    </button>
+    
+    <view class="user-info">
+      <view class="nickname-input-wrap">
+        <input 
+          type="nickname" 
+          class="nickname-input" 
+          placeholder="请输入真实昵称"
+          value="{{userInfo.nickname}}"
+          bindblur="onInputNickname"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="user-card">
+    <view class="avatar-btn disabled">
+      <view class="avatar-placeholder gray">
+        <text class="placeholder-icon">👤</text>
+      </view>
+    </view>
+    
+    <view class="user-info">
+      <text class="nickname-placeholder">未登录</text>
+    </view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">{{userInfo._openid ? stats.days : '--'}}</text>
+      <text class="stat-label">记账总天数</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value debt">{{userInfo._openid ? '¥' + stats.debt : '--'}}</text>
+      <text class="stat-label">待收回债权</text>
+    </view>
+  </view>
+
+  <view class="menu-card">
+    <view class="menu-item" bindtap="handleMenuClick" data-item="预算红线设置">
+      <text class="menu-text">预算红线设置</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="handleMenuClick" data-item="人情债管理">
+      <text class="menu-text">人情债管理</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="handleMenuClick" data-item="账单导出">
+      <text class="menu-text">账单导出 (Excel)</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-divider"></view>
+    <view class="menu-item" bindtap="handleMenuClick" data-item="关于拾圆">
+      <text class="menu-text">关于拾圆 AI</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <button 
+    wx:if="{{userInfo._openid}}"
+    class="save-btn" 
+    type="primary" 
+    bindtap="handleSave" 
+    loading="{{isSaving}}"
+    disabled="{{isSaving}}"
+  >
+    保存更新
+  </button>
+
+  <button 
+    wx:if="{{userInfo._openid}}"
+    class="logout-btn" 
+    type="warn" 
+    bindtap="onLogout"
+  >
+    退出登录
+  </button>
+
+  <button 
+    wx:else
+    class="login-btn" 
+    type="primary" 
+    bindtap="onManualLogin"
+    loading="{{isLogging}}"
+    disabled="{{isLogging}}"
+  >
+    一键登录
+  </button>
+</view>

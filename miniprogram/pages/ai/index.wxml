@@ -1,0 +1,97 @@
+<view class="page-container">
+  <scroll-view
+    class="scroll-area"
+    scroll-y="true"
+    scroll-into-view="{{scrollToId}}"
+    scroll-with-animation="true"
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <view class="chat-content">
+      <view wx:if="{{chatMessages.length === 0}}" class="welcome-tip">
+        <text>👋 你好！我是你的 AI 财务管家</text>
+        <text class="welcome-sub">输入自然语言帮你智能记账~</text>
+        <text class="welcome-example">例如："用微信帮室友垫付了20块外卖"</text>
+      </view>
+
+      <view
+        wx:for="{{chatMessages}}"
+        wx:key="id"
+        id="msg-{{item.id}}"
+        class="message-wrapper {{item.role === 'user' ? 'user-wrapper' : 'ai-wrapper'}}"
+      >
+        <view wx:if="{{item.role === 'user'}}" class="user-bubble">
+          {{item.content}}
+        </view>
+
+        <view class="ai-feedback-container" wx:elif="{{item.role === 'ai'}}">
+          <view class="chat-mode" wx:if="{{item.type === 'text'}}">
+            <view class="butler-avatar">🤖</view>
+            <view class="chat-bubble">
+              <text class="bubble-arrow"></text>
+              <text class="chat-content">{{item.content}}</text>
+            </view>
+          </view>
+
+          <view class="bill-card-mode" wx:elif="{{item.type === 'card'}}">
+            <view class="card-header">
+              <text class="success-icon">✓</text>
+              <text>记账成功</text>
+            </view>
+            <view class="bill-main">
+              <view class="bill-amount">
+                <text class="symbol">¥</text>
+                <text class="value">{{item.content.amount}}</text>
+              </view>
+              <view class="bill-info">
+                <view class="info-item">
+                  <text class="label">分类</text>
+                  <text class="tag">{{item.content.category}}</text>
+                </view>
+                <view class="info-item">
+                  <text class="label">账户</text>
+                  <text class="val">{{item.content.account}}</text>
+                </view>
+                <view class="info-item" wx:if="{{item.content.remark}}">
+                  <text class="label">备注</text>
+                  <text class="val">{{item.content.remark}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{isTyping}}" class="message-wrapper ai-wrapper">
+        <view class="ai-bubble typing-bubble">
+          <view class="typing-indicator">
+            <view class="typing-dot"></view>
+            <view class="typing-dot"></view>
+            <view class="typing-dot"></view>
+          </view>
+        </view>
+      </view>
+
+      <view id="bottom-anchor" class="bottom-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <view class="input-area">
+    <textarea
+      class="auto-textarea"
+      placeholder="呼叫管家..."
+      auto-height="true"
+      confirm-type="send"
+      bindconfirm="handleSend"
+      show-confirm-bar="{{false}}"
+      cursor-spacing="20"
+      fixed="true"
+      disable-default-padding="true"
+      value="{{voiceInputText}}"
+      bindinput="onInputChange"
+    ></textarea>
+    <button class="send-btn {{voiceInputText ? '' : 'disabled'}}" bindtap="handleSend">
+      发送
+    </button>
+  </view>
+</view>
