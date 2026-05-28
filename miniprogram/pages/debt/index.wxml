@@ -1,0 +1,140 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-bg-circle c1"></view>
+    <view class="header-bg-circle c2"></view>
+    <view class="header-content">
+      <text class="page-title">人情债管理</text>
+      <text class="page-subtitle">管理您的待收款</text>
+    </view>
+    <view class="stat-card-on-header">
+      <text class="stat-label-on-header">待收金额</text>
+      <text class="stat-num-on-header">¥{{totalReceivable}}</text>
+      <view class="header-divider"></view>
+      <view class="stat-meta-row">
+        <view class="stat-meta-item">
+          <text class="meta-label">待收笔数</text>
+          <text class="meta-value">{{receivableCount}}</text>
+        </view>
+        <view class="stat-meta-item">
+          <text class="meta-label">状态</text>
+          <text class="meta-value">{{receivableCount > 0 ? '进行中' : '已清零'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="tabs">
+    <view
+      class="tab-item {{activeTab === 'receivable' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="receivable"
+    >
+      <text class="tab-text">待收款</text>
+      <view wx:if="{{receivableCount > 0}}" class="tab-badge">{{receivableCount}}</view>
+    </view>
+    <view
+      class="tab-item {{activeTab === 'history' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="history"
+    >
+      <text class="tab-text">历史记录</text>
+    </view>
+  </view>
+
+  <view class="list-section">
+    <view wx:if="{{debtList.length === 0}}" class="empty-state">
+      <view class="empty-icon-wrap">
+        <text class="empty-icon">📭</text>
+      </view>
+      <text class="empty-text">{{activeTab === 'history' ? '暂无历史记录' : '暂无待收款'}}</text>
+      <text class="empty-hint">{{activeTab === 'history' ? '结清的款项会出现在这里' : '等待对方还款后可标记结清'}}</text>
+    </view>
+
+    <view wx:else class="debt-list">
+      <view
+        wx:for="{{debtList}}"
+        wx:key="_id"
+        class="debt-item"
+        bindtap="openDetailModal"
+        data-debt="{{item}}"
+      >
+        <view class="debt-accent"></view>
+        <view class="debt-left">
+          <view class="debt-icon bg-green">
+            <text>💰</text>
+          </view>
+          <view class="debt-info">
+            <text class="debt-name">{{item.targetPerson || 'AA待收款'}}</text>
+            <text class="debt-remark">{{item.remark || '-'}}</text>
+          </view>
+        </view>
+        <view class="debt-right">
+          <text class="debt-amount income">+¥{{item.amountText}}</text>
+          <text class="debt-date">{{item.dateText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="mask {{showDetailModal ? 'show' : ''}}" bindtap="closeDetailModal"></view>
+
+  <view class="modal {{showDetailModal ? 'show' : ''}}">
+    <view class="modal-handle"></view>
+    <view class="modal-header">
+      <text class="modal-title">债务详情</text>
+      <view class="close-btn" bindtap="closeDetailModal">✕</view>
+    </view>
+
+    <view wx:if="{{selectedDebt}}" class="modal-body">
+      <view class="modal-amount-card">
+        <text class="modal-amount-label">应收金额</text>
+        <text class="modal-amount-value">+¥{{selectedDebt.amount}}</text>
+        <text class="modal-amount-status {{selectedDebt.status === 0 ? 'pending' : 'settled'}}">
+          {{selectedDebt.status === 0 ? '未结清' : '已结清'}}
+        </text>
+      </view>
+
+      <view class="detail-row">
+        <text class="detail-label">类型</text>
+        <text class="detail-value">应收</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">对方</text>
+        <text class="detail-value">{{selectedDebt.targetPerson || 'AA待收款'}}</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">备注</text>
+        <text class="detail-value">{{selectedDebt.remark || '无'}}</text>
+      </view>
+      <view class="detail-row">
+        <text class="detail-label">创建时间</text>
+        <text class="detail-value">{{selectedDebt.createTimeText}}</text>
+      </view>
+      <view wx:if="{{selectedDebt.status === 1 && selectedDebt.settleTimeText}}" class="detail-row">
+        <text class="detail-label">结清时间</text>
+        <text class="detail-value">{{selectedDebt.settleTimeText}}</text>
+      </view>
+      <view wx:if="{{selectedDebt.status === 1 && selectedDebt.settleAccountName}}" class="detail-row">
+        <text class="detail-label">收款账户</text>
+        <text class="detail-value">{{selectedDebt.settleAccountName}}</text>
+      </view>
+    </view>
+
+    <view class="modal-footer">
+      <button
+        wx:if="{{selectedDebt && selectedDebt.status === 0}}"
+        class="settle-btn"
+        bindtap="showAccountSelector"
+      >
+        已结清
+      </button>
+      <button
+        wx:else
+        class="close-modal-btn"
+        bindtap="closeDetailModal"
+      >
+        关闭
+      </button>
+    </view>
+  </view>
+</view>

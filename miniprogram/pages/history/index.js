@@ -26,6 +26,9 @@ Page({
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 1 });
+    }
     this.fetchBillList();
   },
 
@@ -270,8 +273,10 @@ Page({
 
     const result = Object.values(groups).map(group => ({
       ...group,
-      dayTotalExpense: parseFloat(group.dayTotalExpense.toFixed(2)),
-      dayTotalIncome: parseFloat(group.dayTotalIncome.toFixed(2)),
+      dayTotalExpense: isNaN(group.dayTotalExpense) ? 0 : parseFloat(group.dayTotalExpense.toFixed(2)),
+      dayTotalIncome: isNaN(group.dayTotalIncome) ? 0 : parseFloat(group.dayTotalIncome.toFixed(2)),
+      dayExpenseText: (isNaN(group.dayTotalExpense) ? 0 : parseFloat(group.dayTotalExpense.toFixed(2))).toString(),
+      dayIncomeText: (isNaN(group.dayTotalIncome) ? 0 : parseFloat(group.dayTotalIncome.toFixed(2))).toString(),
       records: group.records.map(record => {
         const createTime = record.createTime;
         let time = '--:--';

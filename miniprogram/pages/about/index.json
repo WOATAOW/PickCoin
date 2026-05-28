@@ -1,5 +1,6 @@
 {
-  "navigationBarTitleText": "AI 财务管家",
+  "usingComponents": {},
+  "navigationBarTitleText": "关于拾圆",
   "navigationBarBackgroundColor": "#667eea",
   "navigationBarTextStyle": "white"
 }

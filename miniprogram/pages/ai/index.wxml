@@ -8,10 +8,22 @@
     show-scrollbar="{{false}}"
   >
     <view class="chat-content">
-      <view wx:if="{{chatMessages.length === 0}}" class="welcome-tip">
-        <text>👋 你好！我是你的 AI 财务管家</text>
-        <text class="welcome-sub">输入自然语言帮你智能记账~</text>
-        <text class="welcome-example">例如："用微信帮室友垫付了20块外卖"</text>
+      <view wx:if="{{chatMessages.length === 0}}" class="welcome-section">
+        <view class="welcome-bg-circle c1"></view>
+        <view class="welcome-bg-circle c2"></view>
+        <view class="welcome-inner">
+          <view class="welcome-avatar">🤖</view>
+          <text class="welcome-title">你好！我是你的 AI 财务管家</text>
+          <text class="welcome-sub">输入自然语言帮你智能记账~</text>
+          <view class="welcome-example">
+            <text class="example-label">试试说</text>
+            <text class="example-text">"用微信帮室友垫付了20块外卖"</text>
+          </view>
+          <view class="welcome-example">
+            <text class="example-label">或者</text>
+            <text class="example-text">"今天午饭花了35元"</text>
+          </view>
+        </view>
       </view>
 
       <view
@@ -29,20 +41,21 @@
             <view class="butler-avatar">🤖</view>
             <view class="chat-bubble">
               <text class="bubble-arrow"></text>
-              <text class="chat-content">{{item.content}}</text>
+              <text class="chat-text">{{item.content}}</text>
             </view>
           </view>
 
           <view class="bill-card-mode" wx:elif="{{item.type === 'card'}}">
             <view class="card-header">
-              <text class="success-icon">✓</text>
-              <text>记账成功</text>
+              <view class="success-icon">✓</view>
+              <text class="card-header-text">记账成功</text>
             </view>
             <view class="bill-main">
               <view class="bill-amount">
                 <text class="symbol">¥</text>
                 <text class="value">{{item.content.amount}}</text>
               </view>
+              <view class="bill-divider"></view>
               <view class="bill-info">
                 <view class="info-item">
                   <text class="label">分类</text>
@@ -58,11 +71,15 @@
                 </view>
               </view>
             </view>
+            <view class="bill-footer">
+              <text class="bill-time">{{item.content.time}}</text>
+            </view>
           </view>
         </view>
       </view>
 
       <view wx:if="{{isTyping}}" class="message-wrapper ai-wrapper">
+        <view class="butler-avatar small">🤖</view>
         <view class="ai-bubble typing-bubble">
           <view class="typing-indicator">
             <view class="typing-dot"></view>

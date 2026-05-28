@@ -27,6 +27,9 @@ Page({
   },
 
   onShow: function () {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 3 });
+    }
     this.fetchAccounts();
   },
 
@@ -274,7 +277,7 @@ Page({
         billData.date = this.data.selectedDate;
       }
 
-      await db.collection('pc_bill').add({
+      const billRes = await db.collection('pc_bill').add({
         data: billData
       });
 
@@ -283,6 +286,23 @@ Page({
           balance: _.inc(balanceChange)
         }
       });
+
+      if (this.data.isAA && isExpense && this.data.peopleCount > 1) {
+        const perPerson = cleanAmount / this.data.peopleCount;
+        const debtAmount = cleanAmount - perPerson;
+        
+        await db.collection('pc_debt').add({
+          data: {
+            debtType: '应收',
+            targetPerson: 'AA待收款',
+            amount: Number(debtAmount.toFixed(2)),
+            status: 0,
+            relatedBillId: billRes._id,
+            remark: this.data.remark ? `[AA代付] ${this.data.remark}` : 'AA账单待收',
+            createTime: db.serverDate()
+          }
+        });
+      }
 
       wx.hideLoading();
       wx.showToast({

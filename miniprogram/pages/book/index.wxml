@@ -1,116 +1,136 @@
 <view class="container">
   <view class="header">
-    <view class="type-switch">
-      <view 
-        class="switch-btn expense {{type === 'expense' ? 'active' : ''}}" 
-        bindtap="onTypeChange" 
-        data-type="expense"
-      >
-        支出
+    <view class="header-bg-circle c1"></view>
+    <view class="header-bg-circle c2"></view>
+    <view class="header-inner">
+      <view class="type-switch">
+        <view
+          class="switch-btn expense {{type === 'expense' ? 'active' : ''}}"
+          bindtap="onTypeChange"
+          data-type="expense"
+        >
+          支出
+        </view>
+        <view
+          class="switch-btn income {{type === 'income' ? 'active' : ''}}"
+          bindtap="onTypeChange"
+          data-type="income"
+        >
+          收入
+        </view>
       </view>
-      <view 
-        class="switch-btn income {{type === 'income' ? 'active' : ''}}" 
-        bindtap="onTypeChange" 
-        data-type="income"
-      >
-        收入
+
+      <view class="amount-section" bindtap="openKeyboard">
+        <text class="amount-symbol">¥</text>
+        <text class="amount-value">{{amount || '0.00'}}</text>
+        <text class="amount-hint">点击输入金额</text>
       </view>
-    </view>
-    
-    <view class="amount-section" bindtap="openKeyboard">
-      <text class="amount-symbol">¥</text>
-      <text class="amount-value">{{amount || '0.00'}}</text>
     </view>
   </view>
 
   <view class="form-section">
-    <view class="form-item">
-      <text class="form-label">分类</text>
-      <picker 
-        mode="selector" 
-        range="{{type === 'expense' ? expenseCategories : incomeCategories}}" 
-        value="{{categoryIndex}}" 
-        bindchange="onCategoryChange"
-      >
-        <view class="picker-value">
-          {{categoryName || '请选择分类'}}
-        </view>
-      </picker>
-    </view>
-
-    <view class="form-item">
-      <text class="form-label">账户</text>
-      <picker 
-        mode="selector" 
-        range="{{accountList}}" 
-        range-key="name"
-        value="{{accountIndex}}" 
-        bindchange="onAccountChange"
-      >
-        <view class="picker-value">
-          {{accountName || '请选择账户'}}
-        </view>
-      </picker>
-    </view>
-
-    <view class="form-item">
-      <view class="aa-row">
-        <view class="aa-left">
-          <text class="form-label">AA代付</text>
-          <view class="switch-wrap" bindtap="toggleAA">
-            <view class="switch-track {{isAA ? 'on' : ''}}">
-              <view class="switch-thumb"></view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-item-row">
+          <text class="form-label">分类</text>
+          <picker
+            mode="selector"
+            range="{{type === 'expense' ? expenseCategories : incomeCategories}}"
+            value="{{categoryIndex}}"
+            bindchange="onCategoryChange"
+          >
+            <view class="picker-value">
+              <text class="picker-text">{{categoryName || '请选择分类'}}</text>
+              <text class="picker-arrow">›</text>
             </view>
-            <text class="switch-text">{{isAA ? '开启' : '关闭'}}</text>
-          </view>
+          </picker>
         </view>
-        <view class="aa-right" wx:if="{{isAA}}">
-          <text class="aa-label">参与总人数(含自己)</text>
-          <view class="people-counter">
-            <view class="counter-btn" bindtap="decreasePeople">-</view>
-            <text class="counter-value">{{peopleCount}}</text>
-            <view class="counter-btn" bindtap="increasePeople">+</view>
+      </view>
+
+      <view class="form-divider"></view>
+
+      <view class="form-item">
+        <view class="form-item-row">
+          <text class="form-label">账户</text>
+          <picker
+            mode="selector"
+            range="{{accountList}}"
+            range-key="name"
+            value="{{accountIndex}}"
+            bindchange="onAccountChange"
+          >
+            <view class="picker-value">
+              <text class="picker-text">{{accountName || '请选择账户'}}</text>
+              <text class="picker-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="form-divider" wx:if="{{type === 'expense'}}"></view>
+
+      <view class="form-item" wx:if="{{type === 'expense'}}">
+        <view class="aa-row">
+          <view class="aa-left">
+            <text class="form-label">AA代付</text>
+            <view class="switch-wrap" bindtap="toggleAA">
+              <view class="switch-track {{isAA ? 'on' : ''}}">
+                <view class="switch-thumb"></view>
+              </view>
+              <text class="switch-text">{{isAA ? '已开启' : '关闭'}}</text>
+            </view>
+          </view>
+          <view class="aa-right" wx:if="{{isAA}}">
+            <text class="aa-label">参与人数(含自己)</text>
+            <view class="people-counter">
+              <view class="counter-btn" bindtap="decreasePeople">-</view>
+              <text class="counter-value">{{peopleCount}}</text>
+              <view class="counter-btn" bindtap="increasePeople">+</view>
+            </view>
           </view>
         </view>
       </view>
-    </view>
 
-    <view class="form-item">
-      <text class="form-label">备注</text>
-      <input 
-        class="remark-input" 
-        placeholder="添加备注..." 
-        value="{{remark}}"
-        bindinput="onRemarkInput"
-      />
+      <view class="form-divider" wx:if="{{type === 'expense'}}"></view>
+
+      <view class="form-item">
+        <text class="form-label">备注</text>
+        <input
+          class="remark-input"
+          placeholder="添加备注..."
+          value="{{remark}}"
+          bindinput="onRemarkInput"
+        />
+      </view>
     </view>
   </view>
 
   <view class="bottom-submit">
-    <view class="submit-btn" bindtap="onSubmit">记账</view>
+    <view class="submit-btn" bindtap="onSubmit">记一笔</view>
   </view>
 
   <view class="mask {{showKeyboard ? 'show' : ''}}" bindtap="closeKeyboard"></view>
-  
+
   <view class="keyboard-popup {{showKeyboard ? 'show' : ''}}">
+    <view class="keyboard-handle"></view>
     <view class="keyboard-section">
       <view class="key" bindtap="onKeyPress" data-key="1">1</view>
       <view class="key" bindtap="onKeyPress" data-key="2">2</view>
       <view class="key" bindtap="onKeyPress" data-key="3">3</view>
       <view class="key key-del" bindtap="onKeyDelete">⌫</view>
-      
+
       <view class="key" bindtap="onKeyPress" data-key="4">4</view>
       <view class="key" bindtap="onKeyPress" data-key="5">5</view>
       <view class="key" bindtap="onKeyPress" data-key="6">6</view>
       <picker mode="date" fields="day" bindchange="onDateChange" class="key key-date">
         <view>{{displayDate}}</view>
       </picker>
-      
+
       <view class="key" bindtap="onKeyPress" data-key="7">7</view>
       <view class="key" bindtap="onKeyPress" data-key="8">8</view>
       <view class="key" bindtap="onKeyPress" data-key="9">9</view>
       <view class="key key-submit" bindtap="closeKeyboard">完成</view>
-      
+
       <view class="key key-zero" bindtap="onKeyPress" data-key="0">0</view>
       <view class="key" bindtap="onKeyPress" data-key=".">.</view>
     </view>

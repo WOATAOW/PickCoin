@@ -1,43 +1,53 @@
 <view class="container">
   <view wx:if="{{userInfo._openid}}" class="user-card">
-    <button 
-      class="avatar-btn" 
-      open-type="chooseAvatar" 
-      bind:chooseavatar="onChooseAvatar"
-    >
-      <image 
-        wx:if="{{userInfo.avatarUrl}}" 
-        class="avatar" 
-        src="{{userInfo.avatarUrl}}" 
-        mode="aspectFill"
-      />
-      <view wx:else class="avatar-placeholder">
-        <text class="placeholder-icon">👤</text>
-      </view>
-    </button>
-    
-    <view class="user-info">
-      <view class="nickname-input-wrap">
-        <input 
-          type="nickname" 
-          class="nickname-input" 
-          placeholder="请输入真实昵称"
-          value="{{userInfo.nickname}}"
-          bindblur="onInputNickname"
+    <view class="card-bg-circle c1"></view>
+    <view class="card-bg-circle c2"></view>
+    <view class="card-inner">
+      <button
+        class="avatar-btn"
+        open-type="chooseAvatar"
+        bind:chooseavatar="onChooseAvatar"
+      >
+        <image
+          wx:if="{{userInfo.avatarUrl}}"
+          class="avatar"
+          src="{{userInfo.avatarUrl}}"
+          mode="aspectFill"
         />
+        <view wx:else class="avatar-placeholder">
+          <text class="placeholder-icon">👤</text>
+        </view>
+      </button>
+
+      <view class="user-info">
+        <view class="nickname-input-wrap">
+          <input
+            type="nickname"
+            class="nickname-input"
+            placeholder="请输入真实昵称"
+            value="{{userInfo.nickname}}"
+            bindblur="onInputNickname"
+          />
+        </view>
+        <text class="user-hint">点击头像可更换，点击昵称可修改</text>
       </view>
     </view>
   </view>
 
   <view wx:else class="user-card">
-    <view class="avatar-btn disabled">
-      <view class="avatar-placeholder gray">
-        <text class="placeholder-icon">👤</text>
+    <view class="card-bg-circle c1"></view>
+    <view class="card-bg-circle c2"></view>
+    <view class="card-inner">
+      <view class="avatar-btn disabled">
+        <view class="avatar-placeholder gray">
+          <text class="placeholder-icon">👤</text>
+        </view>
       </view>
-    </view>
-    
-    <view class="user-info">
-      <text class="nickname-placeholder">未登录</text>
+
+      <view class="user-info">
+        <text class="nickname-placeholder">未登录</text>
+        <text class="user-hint">登录后可使用完整功能</text>
+      </view>
     </view>
   </view>
 
@@ -54,51 +64,59 @@
   </view>
 
   <view class="menu-card">
-    <view class="menu-item" bindtap="handleMenuClick" data-item="预算红线设置">
-      <text class="menu-text">预算红线设置</text>
-      <text class="menu-arrow">›</text>
-    </view>
-    <view class="menu-divider"></view>
     <view class="menu-item" bindtap="handleMenuClick" data-item="人情债管理">
-      <text class="menu-text">人情债管理</text>
+      <view class="menu-left">
+        <view class="menu-icon-circle green-bg">
+          <text class="menu-icon">🤝</text>
+        </view>
+        <text class="menu-text">人情债管理</text>
+      </view>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-divider"></view>
     <view class="menu-item" bindtap="handleMenuClick" data-item="账单导出">
-      <text class="menu-text">账单导出 (Excel)</text>
+      <view class="menu-left">
+        <view class="menu-icon-circle blue-bg">
+          <text class="menu-icon">📊</text>
+        </view>
+        <text class="menu-text">账单导出 (Excel)</text>
+      </view>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-divider"></view>
     <view class="menu-item" bindtap="handleMenuClick" data-item="关于拾圆">
-      <text class="menu-text">关于拾圆 AI</text>
+      <view class="menu-left">
+        <view class="menu-icon-circle purple-bg">
+          <text class="menu-icon">💡</text>
+        </view>
+        <text class="menu-text">关于拾圆 AI</text>
+      </view>
       <text class="menu-arrow">›</text>
     </view>
   </view>
 
-  <button 
-    wx:if="{{userInfo._openid}}"
-    class="save-btn" 
-    type="primary" 
-    bindtap="handleSave" 
-    loading="{{isSaving}}"
-    disabled="{{isSaving}}"
-  >
-    保存更新
-  </button>
+  <view wx:if="{{userInfo._openid}}" class="btn-group">
+    <button
+      class="save-btn"
+      type="primary"
+      bindtap="handleSave"
+      loading="{{isSaving}}"
+      disabled="{{isSaving}}"
+    >
+      保存更新
+    </button>
+    <button
+      class="logout-btn"
+      bindtap="onLogout"
+    >
+      退出登录
+    </button>
+  </view>
 
-  <button 
-    wx:if="{{userInfo._openid}}"
-    class="logout-btn" 
-    type="warn" 
-    bindtap="onLogout"
-  >
-    退出登录
-  </button>
-
-  <button 
+  <button
     wx:else
-    class="login-btn" 
-    type="primary" 
+    class="login-btn"
+    type="primary"
     bindtap="onManualLogin"
     loading="{{isLogging}}"
     disabled="{{isLogging}}"

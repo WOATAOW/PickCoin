@@ -4,7 +4,8 @@ Page({
     monthIncome: '0.00',
     totalBalance: '0.00',
     recentTxs: [],
-    isLoading: true
+    isLoading: true,
+    greeting: ''
   },
 
   onLoad: function (options) {
@@ -12,7 +13,20 @@ Page({
   },
 
   onShow: function () {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 0 });
+    }
+    this.updateGreeting();
     this.fetchDashboardData();
+  },
+
+  updateGreeting() {
+    const hour = new Date().getHours();
+    let greeting = '晚上好';
+    if (hour >= 5 && hour < 12) greeting = '早上好';
+    else if (hour >= 12 && hour < 14) greeting = '中午好';
+    else if (hour >= 14 && hour < 18) greeting = '下午好';
+    this.setData({ greeting });
   },
 
   async fetchDashboardData() {

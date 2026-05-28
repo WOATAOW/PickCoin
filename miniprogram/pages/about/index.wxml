@@ -1,0 +1,114 @@
+<view class="about-container">
+  <view class="header">
+    <view class="header-bg-circle c1"></view>
+    <view class="header-bg-circle c2"></view>
+    <view class="header-inner">
+      <view class="logo-wrap">
+        <view class="logo">🤖</view>
+      </view>
+      <text class="title">拾圆 AI 财务管家</text>
+      <text class="subtitle">让记账更智能、更简单</text>
+    </view>
+  </view>
+
+  <view class="feature-card">
+    <view class="section-title">
+      <view class="section-icon-wrap blue-bg">
+        <text class="section-icon">✨</text>
+      </view>
+      <text>核心功能</text>
+    </view>
+
+    <view class="feature-list">
+      <view class="feature-item">
+        <view class="feature-icon">💬</view>
+        <view class="feature-content">
+          <text class="feature-title">智能记账</text>
+          <text class="feature-desc">用自然语言描述消费，AI 自动识别金额、分类和账户</text>
+        </view>
+      </view>
+
+      <view class="feature-item">
+        <view class="feature-icon">📊</view>
+        <view class="feature-content">
+          <text class="feature-title">财务分析</text>
+          <text class="feature-desc">智能分析消费习惯，提供个性化理财建议</text>
+        </view>
+      </view>
+
+      <view class="feature-item">
+        <view class="feature-icon">🔗</view>
+        <view class="feature-content">
+          <text class="feature-title">账户关联</text>
+          <text class="feature-desc">自动匹配您的资产账户，精准记录每一笔收支</text>
+        </view>
+      </view>
+
+      <view class="feature-item">
+        <view class="feature-icon">📝</view>
+        <view class="feature-content">
+          <text class="feature-title">智能备注</text>
+          <text class="feature-desc">自动生成详细的交易备注，方便日后追溯</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="usage-card">
+    <view class="section-title">
+      <view class="section-icon-wrap amber-bg">
+        <text class="section-icon">💡</text>
+      </view>
+      <text>使用示例</text>
+    </view>
+
+    <view class="example-list">
+      <view class="example-item">
+        <text class="example-query">"今天吃饭花了35块"</text>
+        <text class="example-arrow">→</text>
+        <text class="example-result">餐饮 ¥35.00</text>
+      </view>
+
+      <view class="example-item">
+        <text class="example-query">"用支付宝付了200房租"</text>
+        <text class="example-arrow">→</text>
+        <text class="example-result">房租 ¥200.00</text>
+      </view>
+
+      <view class="example-item">
+        <text class="example-query">"兼职赚了500块"</text>
+        <text class="example-arrow">→</text>
+        <text class="example-result">兼职收入 ¥500.00</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tech-card">
+    <view class="section-title">
+      <view class="section-icon-wrap green-bg">
+        <text class="section-icon">🛠️</text>
+      </view>
+      <text>技术支持</text>
+    </view>
+
+    <view class="tech-list">
+      <view class="tech-item">
+        <text class="tech-label">AI 引擎</text>
+        <text class="tech-value">DeepSeek</text>
+      </view>
+      <view class="tech-item">
+        <text class="tech-label">数据存储</text>
+        <text class="tech-value">微信云开发</text>
+      </view>
+      <view class="tech-item">
+        <text class="tech-label">数据安全</text>
+        <text class="tech-value">端到端加密</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="version">版本 1.0.0</text>
+    <text class="copyright">© 2024 拾圆 AI 财务管家</text>
+  </view>
+</view>

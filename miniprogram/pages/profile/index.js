@@ -15,6 +15,9 @@ Page({
   },
 
   onShow() {
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({ selected: 4 });
+    }
     this.loadUserData();
   },
 
@@ -32,6 +35,7 @@ Page({
       });
       
       this.calculateTotalDays(globalUser);
+      this.fetchDebtTotal();
     } else {
       this.setData({
         userInfo: {
@@ -81,6 +85,39 @@ Page({
       this.setData({
         'stats.days': 1
       });
+    }
+  },
+  
+  async fetchDebtTotal() {
+    const app = getApp();
+    const userInfo = app.globalData.userInfo;
+    
+    if (!userInfo || !userInfo._openid) {
+      this.setData({ 'stats.debt': '0.00' });
+      return;
+    }
+
+    try {
+      const db = wx.cloud.database();
+      const result = await db.collection('pc_debt')
+        .where({ 
+          _openid: userInfo._openid,
+          status: 0,
+          debtType: '应收'
+        })
+        .get();
+
+      const debts = result.data || [];
+      const totalDebt = debts.reduce((sum, item) => {
+        return sum + (parseFloat(item.amount) || 0);
+      }, 0);
+
+      this.setData({
+        'stats.debt': totalDebt.toFixed(2)
+      });
+    } catch (err) {
+      console.error("【获取待收债务失败】", err);
+      this.setData({ 'stats.debt': '0.00' });
     }
   },
 
@@ -266,9 +303,73 @@ Page({
 
   handleMenuClick(e) {
     const item = e.currentTarget.dataset.item;
+    
+    if (item === '账单导出') {
+      this.exportMyBills();
+      return;
+    }
+    
+    if (item === '关于拾圆') {
+      wx.navigateTo({
+        url: '/pages/about/index'
+      });
+      return;
+    }
+    
+    if (item === '人情债管理') {
+      wx.navigateTo({
+        url: '/pages/debt/index'
+      });
+      return;
+    }
+    
     wx.showToast({
       title: '功能开发中，敬请期待',
       icon: 'none'
+    });
+  },
+  
+  exportMyBills: function() {
+    wx.showLoading({ title: '正在生成账单...', mask: true });
+
+    wx.cloud.callFunction({
+      name: 'exportBills',
+      data: {}
+    }).then(res => {
+      if (res.result && res.result.success) {
+        const fileID = res.result.fileID;
+        
+        wx.showLoading({ title: '正在下载文件...' });
+        
+        wx.cloud.downloadFile({
+          fileID: fileID,
+          success: downloadRes => {
+            wx.hideLoading();
+            const filePath = downloadRes.tempFilePath;
+            
+            wx.openDocument({
+              filePath: filePath,
+              showMenu: true,
+              success: function () {
+                console.log('打开文档成功');
+              },
+              fail: function (err) {
+                wx.showToast({ title: '打开失败', icon: 'none' });
+              }
+            });
+          },
+          fail: err => {
+            wx.hideLoading();
+            wx.showToast({ title: '下载失败', icon: 'none' });
+          }
+        });
+      } else {
+        wx.hideLoading();
+        wx.showToast({ title: '生成失败', icon: 'none' });
+      }
+    }).catch(err => {
+      wx.hideLoading();
+      wx.showToast({ title: '网络异常', icon: 'none' });
     });
   },
 

@@ -1,37 +1,43 @@
 <view class="container">
   <view class="header-section">
-    <view class="filter-row">
-      <picker mode="date" fields="month" bindchange="onMonthChange">
-        <view class="picker-btn">
-          <text class="picker-text">{{selectedMonth}}</text>
-          <text class="picker-icon">▼</text>
-        </view>
-      </picker>
-      
-      <picker mode="selector" range="{{categories}}" bindchange="onCategoryChange">
-        <view class="picker-btn">
-          <text class="picker-text">{{selectedCategory}}</text>
-          <text class="picker-icon">▼</text>
-        </view>
-      </picker>
-    </view>
+    <view class="header-bg-circle c1"></view>
+    <view class="header-bg-circle c2"></view>
+    <view class="header-inner">
+      <view class="filter-row">
+        <picker mode="date" fields="month" bindchange="onMonthChange">
+          <view class="picker-btn">
+            <text class="picker-text">{{selectedMonth}}</text>
+            <text class="picker-icon">▼</text>
+          </view>
+        </picker>
 
-    <view class="stats-row">
-      <view class="stat-item">
-        <text class="stat-label">支出</text>
-        <text class="stat-value expense">-¥{{monthExpense}}</text>
+        <picker mode="selector" range="{{categories}}" bindchange="onCategoryChange">
+          <view class="picker-btn">
+            <text class="picker-text">{{selectedCategory}}</text>
+            <text class="picker-icon">▼</text>
+          </view>
+        </picker>
       </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <text class="stat-label">收入</text>
-        <text class="stat-value income">+¥{{monthIncome}}</text>
+
+      <view class="stats-card">
+        <view class="stat-item">
+          <text class="stat-label">支出</text>
+          <text class="stat-value expense">-¥{{monthExpense}}</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-label">收入</text>
+          <text class="stat-value income">+¥{{monthIncome}}</text>
+        </view>
       </view>
     </view>
   </view>
 
   <view class="list-section">
     <view wx:if="{{isEmpty}}" class="empty-state">
-      <view class="empty-icon">📭</view>
+      <view class="empty-icon-wrap">
+        <text class="empty-icon">📭</text>
+      </view>
       <text class="empty-text">暂无账单记录</text>
       <text class="empty-hint">该月暂无收支明细</text>
     </view>
@@ -41,20 +47,20 @@
         <view class="date-header">
           <text class="date-text">{{group.date}}</text>
           <view class="date-summary">
-            <text class="summary-item expense">支出 ¥{{group.dayTotalExpense.toFixed(2)}}</text>
-            <text class="summary-item income">收入 ¥{{group.dayTotalIncome.toFixed(2)}}</text>
+            <text class="summary-item expense">支出 ¥{{group.dayExpenseText || '0.00'}}</text>
+            <text class="summary-item income">收入 ¥{{group.dayIncomeText || '0.00'}}</text>
           </view>
         </view>
-        
-        <view 
-          wx:for="{{group.records}}" 
-          wx:key="_id" 
-          wx:for-item="bill" 
+
+        <view
+          wx:for="{{group.records}}"
+          wx:key="_id"
+          wx:for-item="bill"
           class="tx-item"
           bindtap="openEditBillModal"
           data-bill="{{bill}}"
         >
-          <view class="tx-icon-wrap">
+          <view class="tx-icon-wrap {{bill.type === '支出' || bill.type === 'expense' ? 'bg-red' : 'bg-green'}}">
             <text class="tx-icon">{{bill.type === '支出' || bill.type === 'expense' ? '💸' : '💰'}}</text>
           </view>
           <view class="tx-info">
@@ -75,27 +81,32 @@
   <view class="mask {{showEditModal ? 'show' : ''}}" bindtap="closeEditModal"></view>
 
   <view class="modal {{showEditModal ? 'show' : ''}}">
+    <view class="modal-handle"></view>
     <view class="modal-header">
       <text class="modal-title">修改账单金额</text>
     </view>
 
     <view class="modal-body">
-      <view class="hint-text">
-        <text class="hint-label">当前分类：</text>
-        <text class="hint-value">{{editingBill ? editingBill.category : ''}}</text>
-      </view>
-      <view class="hint-text">
-        <text class="hint-label">原金额：</text>
-        <text class="hint-value">{{editingBill ? (editingBill.type === '支出' || editingBill.type === 'expense' ? '-' : '+') + '¥' + editingBill.amountText : ''}}</text>
+      <view class="hint-card">
+        <view class="hint-row">
+          <text class="hint-label">分类</text>
+          <text class="hint-value">{{editingBill ? editingBill.category : ''}}</text>
+        </view>
+        <view class="hint-row">
+          <text class="hint-label">原金额</text>
+          <text class="hint-value {{editingBill && (editingBill.type === '支出' || editingBill.type === 'expense') ? 'expense-text' : 'income-text'}}">
+            {{editingBill ? (editingBill.type === '支出' || editingBill.type === 'expense' ? '-' : '+') + '¥' + editingBill.amountText : ''}}
+          </text>
+        </view>
       </view>
 
       <view class="input-group">
         <text class="input-label">新金额</text>
-        <input 
-          class="modal-input" 
-          type="digit" 
-          placeholder="请输入新金额" 
-          bindinput="onNewAmountInput" 
+        <input
+          class="modal-input"
+          type="digit"
+          placeholder="请输入新金额"
+          bindinput="onNewAmountInput"
           value="{{newAmount}}"
         />
       </view>

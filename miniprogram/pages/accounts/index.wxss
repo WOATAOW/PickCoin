@@ -1,34 +1,130 @@
 page {
   background-color: #F3F4F6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
+  width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .container {
   width: 100vw;
   min-height: 100vh;
   box-sizing: border-box;
-  background-color: #F3F4F6;
-  padding: 30rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
 }
 
+/* ========== Skeleton Loading ========== */
+.skeleton-card {
+  background: #fff;
+  border-radius: 28rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.skeleton-line {
+  height: 24rpx;
+  background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.skeleton-line.h-large {
+  height: 56rpx;
+}
+
+.skeleton-line.w30 { width: 30%; }
+.skeleton-line.w40 { width: 40%; }
+.skeleton-line.w50 { width: 50%; }
+
+.skeleton-divider {
+  height: 1rpx;
+  background: #F3F4F6;
+  margin: 24rpx 0;
+}
+
+.skeleton-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.skeleton-list {
+  background: #fff;
+  border-radius: 28rpx;
+  padding: 28rpx;
+}
+
+.skeleton-item {
+  height: 96rpx;
+  background: linear-gradient(90deg, #E5E7EB 25%, #F3F4F6 50%, #E5E7EB 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.skeleton-item:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ========== Summary Card ========== */
 .summary-card {
+  position: relative;
   width: 100%;
   box-sizing: border-box;
   background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
-  border-radius: 24rpx;
+  border-radius: 28rpx;
   padding: 40rpx;
-  margin-bottom: 30rpx;
-  box-shadow: 0 10rpx 30rpx rgba(30, 58, 138, 0.2);
+  color: #FFFFFF;
+  box-shadow: 0 12rpx 36rpx rgba(30, 58, 138, 0.3);
+  overflow: hidden;
+}
+
+.card-bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+  background: #fff;
+}
+
+.card-bg-circle.c1 {
+  width: 260rpx;
+  height: 260rpx;
+  top: -80rpx;
+  right: -50rpx;
+}
+
+.card-bg-circle.c2 {
+  width: 160rpx;
+  height: 160rpx;
+  bottom: -30rpx;
+  left: -20rpx;
+}
+
+.card-inner {
+  position: relative;
+  z-index: 1;
 }
 
 .summary-header {
-  margin-bottom: 20rpx;
+  margin-bottom: 16rpx;
 }
 
 .summary-title {
   font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .summary-value {
@@ -36,54 +132,77 @@ page {
   font-weight: bold;
   color: #FFFFFF;
   display: block;
-  margin-bottom: 30rpx;
+  margin-bottom: 24rpx;
+  letter-spacing: 2rpx;
+}
+
+.summary-divider {
+  height: 1rpx;
+  background: rgba(255, 255, 255, 0.15);
+  margin-bottom: 24rpx;
 }
 
 .summary-row {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .summary-item {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
+.summary-v-divider {
+  width: 1rpx;
+  height: 56rpx;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 8rpx;
+  flex-shrink: 0;
+}
+
 .summary-label {
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 8rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6rpx;
 }
 
 .summary-amount {
-  font-size: 32rpx;
-  font-weight: 500;
+  font-size: 30rpx;
+  font-weight: 600;
 }
 
 .summary-amount.green {
-  color: #10B981;
+  color: #86EFAC;
 }
 
 .summary-amount.red {
-  color: #F87171;
+  color: #FCA5A5;
 }
 
+/* ========== Account List ========== */
 .account-list {
   width: 100%;
   box-sizing: border-box;
   background-color: #FFFFFF;
-  border-radius: 24rpx;
-  padding: 30rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.03);
+  border-radius: 28rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
 }
 
 .list-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
   padding-bottom: 20rpx;
-  border-bottom: 2rpx solid #F3F4F6;
+  border-bottom: 1rpx solid #F3F4F6;
+}
+
+.list-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
 }
 
 .list-title {
@@ -93,44 +212,66 @@ page {
 }
 
 .list-count {
-  font-size: 24rpx;
-  color: #9CA3AF;
+  font-size: 22rpx;
+  color: #6B7280;
+  background: #F3F4F6;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
 }
 
 .account-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 24rpx 0;
-  border-bottom: 2rpx solid #F3F4F6;
+  border-bottom: 1rpx solid #F3F4F6;
+  position: relative;
 }
 
 .account-card:last-of-type {
   border-bottom: none;
 }
 
+.account-accent {
+  width: 6rpx;
+  height: 100%;
+  min-height: 72rpx;
+  border-radius: 0 3rpx 3rpx 0;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.account-accent.accent-green {
+  background: linear-gradient(180deg, #10B981 0%, #059669 100%);
+}
+
+.account-accent.accent-red {
+  background: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
+}
+
 .account-left {
   display: flex;
   align-items: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .account-icon {
   width: 80rpx;
   height: 80rpx;
-  border-radius: 50%;
+  border-radius: 20rpx;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 24rpx;
-  background-color: #FEE2E2;
+  margin-right: 20rpx;
+  flex-shrink: 0;
 }
 
 .account-icon.bg-green {
-  background-color: #D1FAE5;
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
 }
 
 .account-icon.bg-red {
-  background-color: #FEE2E2;
+  background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
 }
 
 .icon-text {
@@ -140,30 +281,59 @@ page {
 .account-info {
   display: flex;
   flex-direction: column;
+  gap: 8rpx;
 }
 
 .account-name {
   font-size: 30rpx;
-  font-weight: 500;
+  font-weight: 600;
   color: #1F2937;
-  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.account-type {
-  font-size: 22rpx;
-  color: #9CA3AF;
+.account-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2rpx 14rpx;
+  border-radius: 12rpx;
+  width: fit-content;
+}
+
+.account-type-badge.badge-green {
+  background: #D1FAE5;
+}
+
+.account-type-badge.badge-red {
+  background: #FEE2E2;
+}
+
+.badge-text {
+  font-size: 20rpx;
+  font-weight: 500;
+}
+
+.badge-green .badge-text {
+  color: #059669;
+}
+
+.badge-red .badge-text {
+  color: #DC2626;
 }
 
 .account-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8rpx;
+  gap: 10rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
 }
 
 .account-balance {
-  font-size: 32rpx;
-  font-weight: bold;
+  font-size: 34rpx;
+  font-weight: 700;
 }
 
 .account-balance.green {
@@ -175,39 +345,60 @@ page {
 }
 
 .edit-btn {
-  margin-top: 8rpx;
-  padding: 8rpx 16rpx;
-  border-radius: 12rpx;
-  background-color: #F3F4F6;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 20rpx;
+  background: #F3F4F6;
 }
 
 .edit-icon {
-  font-size: 24rpx;
+  font-size: 20rpx;
 }
 
+.edit-text {
+  font-size: 22rpx;
+  color: #6B7280;
+}
+
+/* ========== Add Account Button ========== */
 .add-account-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24rpx;
-  margin-top: 20rpx;
-  border: 2rpx dashed #D1D5DB;
-  border-radius: 16rpx;
-  background-color: #F9FAFB;
+  padding: 28rpx;
+  margin-top: 16rpx;
+  border: 2rpx dashed #CBD5E1;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+  gap: 12rpx;
+}
+
+.add-icon-circle {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .add-icon {
-  font-size: 36rpx;
-  color: #3B82F6;
-  margin-right: 12rpx;
+  font-size: 32rpx;
+  color: #fff;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .add-text {
   font-size: 28rpx;
   color: #3B82F6;
-  font-weight: 500;
+  font-weight: 600;
 }
 
+/* ========== Mask & Modal ========== */
 .mask {
   position: fixed;
   top: 0;
@@ -231,14 +422,14 @@ page {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  width: 600rpx;
-  background-color: #FFFFFF !important;
-  border-radius: 24rpx;
+  width: 620rpx;
+  background-color: #FFFFFF;
+  border-radius: 28rpx;
   box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.15);
   z-index: 101;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   overflow: hidden;
 }
 
@@ -248,8 +439,16 @@ page {
   transform: translate(-50%, -50%) scale(1);
 }
 
+.modal-handle {
+  width: 64rpx;
+  height: 8rpx;
+  background: #D1D5DB;
+  border-radius: 4rpx;
+  margin: 20rpx auto 0;
+}
+
 .modal-header {
-  padding: 40rpx 40rpx 0;
+  padding: 28rpx 40rpx 0;
   text-align: center;
 }
 
@@ -260,11 +459,11 @@ page {
 }
 
 .modal-body {
-  padding: 40rpx;
+  padding: 32rpx 40rpx;
 }
 
 .input-group {
-  margin-bottom: 30rpx;
+  margin-bottom: 28rpx;
 }
 
 .input-group:last-child {
@@ -275,7 +474,7 @@ page {
   display: block;
   font-size: 26rpx;
   color: #6B7280;
-  margin-bottom: 16rpx;
+  margin-bottom: 14rpx;
 }
 
 .modal-input {
@@ -288,7 +487,7 @@ page {
   font-size: 30rpx;
   color: #111827;
   background-color: #F9FAFB;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.2s;
 }
 
 .modal-input:focus {
@@ -302,8 +501,8 @@ page {
 
 .modal-footer {
   display: flex;
-  padding: 0 40rpx 40rpx;
-  gap: 24rpx;
+  padding: 0 40rpx 36rpx;
+  gap: 20rpx;
 }
 
 .modal-btn {
@@ -314,7 +513,7 @@ page {
   justify-content: center;
   border-radius: 44rpx;
   font-size: 30rpx;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .modal-btn.cancel {
@@ -337,6 +536,7 @@ page {
   border-radius: 16rpx;
   font-size: 30rpx;
   color: #111827;
+  font-weight: 500;
   background-color: #F9FAFB;
   display: flex;
   align-items: center;
